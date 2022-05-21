@@ -1,0 +1,6 @@
+.git
+.settings
+bin
+.classpath
+.gitignore.swp
+.project
