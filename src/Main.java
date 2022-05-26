@@ -1,67 +1,184 @@
-// 문제 : 아래가 실행되도록 해주세요.
-// 조건 : 배열을 사용할 수 없습니다.
-class Main {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Main {
+
+	private static List<Article> articles;
+
+	static {
+		articles = new ArrayList<>();
+	}
+
 	public static void main(String[] args) {
-		사람인력관리소 a사람인력관리소 = new 사람인력관리소();
-		a사람인력관리소.add사람("홍길순", 33);
-		// 나이가 33살인 1번째 사람(홍길순)이 추가되었습니다.
-		a사람인력관리소.add사람("홍길동", 20);
-		// 나이가 20살인 2번째 사람(홍길동)이 추가되었습니다.
-		a사람인력관리소.add사람("임꺽정", 30);
-		// 나이가 30살인 3번째 사람(임꺽정)이 추가되었습니다.
-		a사람인력관리소.add사람("임꺽순", 50);
-		// 나이가 50살인 4번째 사람(임꺽순)이 추가되었습니다.
-		a사람인력관리소.add사람("임선달", 52);
-		// 나이가 52살인 5번째 사람(임선달)이 추가되었습니다.
-		사람 a사람1 = a사람인력관리소.get사람(1);
-		a사람1.자기소개();
-		// 저는 1번, 홍길순, 33살 입니다.
-		사람 a사람2 = a사람인력관리소.get사람(2);
-		a사람2.자기소개();
-		// 저는 2번, 홍길동, 20살 입니다.
-		사람 a사람3 = a사람인력관리소.get사람(3);
-		a사람3.자기소개();
-		// 저는 3번, 임꺽정, 30살 입니다.
-		사람 a사람4 = a사람인력관리소.get사람(4);
-		a사람4.자기소개();
-		// 저는 4번, 임꺽순, 50살 입니다.
-		사람 a사람5 = a사람인력관리소.get사람(5);
-		a사람5.자기소개();
-		// 저는 5번, 임선달, 52살 입니다.
+		System.out.println("==프로그램 시작==");
+
+		makeTestData();
+
+		Scanner sc = new Scanner(System.in);
+
+		while (true) {
+			System.out.printf("명령어 ) ");
+			String command = sc.nextLine().trim();
+
+			if (command.length() == 0) {
+				System.out.println("명령어를 입력해주세요");
+				continue;
+			}
+
+			if (command.equals("system exit")) {
+				break;
+			}
+
+			if (command.equals("article write")) {
+				int id = articles.size() + 1;
+				String regDate = Util.getNowDateStr();
+				System.out.printf("제목 : ");
+				String title = sc.nextLine();
+				System.out.printf("내용 : ");
+				String body = sc.nextLine();
+
+				Article article = new Article(id, regDate, title, body);
+				articles.add(article);
+
+				System.out.printf("%d번글이 생성되었습니다\n", id);
+
+			} else if (command.equals("article list")) {
+				if (articles.size() == 0) {
+					System.out.println("게시글이 없습니다");
+					continue;
+				}
+				System.out.println("번호  |  제목  |  조회");
+				for (int i = articles.size() - 1; i >= 0; i--) {
+					Article article = articles.get(i);
+
+					System.out.printf("%5d | %6s | %4d\n", article.id, article.title, article.hit);
+				}
+			} else if (command.startsWith("article detail ")) {
+
+				String[] commandBits = command.split(" ");
+
+				int id = Integer.parseInt(commandBits[2]);
+
+				Article foundArticle = null;
+
+				for (int i = 0; i < articles.size(); i++) {
+					Article article = articles.get(i);
+
+					if (article.id == id) {
+						foundArticle = article;
+						break;
+					}
+				}
+
+				if (foundArticle == null) {
+					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+					continue;
+				}
+
+				foundArticle.increaseHit();
+
+				System.out.printf("번호 : %d\n", foundArticle.id);
+				System.out.printf("날짜 : %s\n", foundArticle.regDate);
+				System.out.printf("제목 : %s\n", foundArticle.title);
+				System.out.printf("내용 : %s\n", foundArticle.body);
+				System.out.printf("조회 : %d\n", foundArticle.hit);
+
+			} else if (command.startsWith("article modify ")) {
+
+				String[] commandBits = command.split(" ");
+
+				int id = Integer.parseInt(commandBits[2]);
+
+				Article foundArticle = null;
+
+				for (int i = 0; i < articles.size(); i++) {
+					Article article = articles.get(i);
+
+					if (article.id == id) {
+						foundArticle = article;
+						break;
+					}
+				}
+
+				if (foundArticle == null) {
+					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+					continue;
+				}
+				System.out.printf("제목 : ");
+				String title = sc.nextLine();
+				System.out.printf("내용 : ");
+				String body = sc.nextLine();
+
+				foundArticle.title = title;
+				foundArticle.body = body;
+
+				System.out.printf("%d번 게시물을 수정했습니다.\n", id);
+
+			} else if (command.startsWith("article delete ")) {
+
+				String[] commandBits = command.split(" ");
+
+				int id = Integer.parseInt(commandBits[2]);
+
+				int foundIndex = -1;
+
+				for (int i = 0; i < articles.size(); i++) {
+					Article article = articles.get(i);
+
+					if (article.id == id) {
+						foundIndex = i;
+						break;
+					}
+				}
+
+				if (foundIndex == -1) {
+					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+					continue;
+				}
+				articles.remove(foundIndex);
+				System.out.printf("%d번 게시물을 삭제했습니다.\n", id);
+
+			} else {
+				System.out.println("존재하지 않는 명령어 입니다");
+			}
+		}
+
+		sc.close();
+
+		System.out.println("==프로그램 끝==");
+	}
+
+	private static void makeTestData() {
+		System.out.println("테스트를 위한 데이터를 생성합니다.");
+
+		articles.add(new Article(1, Util.getNowDateStr(), "제목1", "내용1", 11));
+		articles.add(new Article(2, Util.getNowDateStr(), "제목2", "내용2", 22));
+		articles.add(new Article(3, Util.getNowDateStr(), "제목3", "내용3", 33));
+
 	}
 }
 
-class 사람인력관리소 {
-	사람[] 사람들;
-	int 마지막_사람_번호;
+class Article {
+	int id;
+	String regDate;
+	String title;
+	String body;
+	int hit;
 
-	사람인력관리소() {
-		마지막_사람_번호 = 0;
-		사람들 = new 사람[100];
+	public Article(int id, String regDate, String title, String body) {
+		this(id, regDate, title, body, 0);
 	}
 
-	void add사람(String 이름, int 나이) {
-		int 번호 = 마지막_사람_번호 + 1;
-		사람 a사람 = new 사람();
-		a사람.번호 = 번호;
-		a사람.이름 = 이름;
-		a사람.나이 = 나이;
-		사람들[번호 - 1] = a사람;
-		System.out.printf("나이가 %d살인 %d번째 사람(%s)이 추가되었습니다.\n", 나이, 번호, 이름);
-		마지막_사람_번호 = 번호;
+	public Article(int id, String regDate, String title, String body, int hit) {
+		this.id = id;
+		this.regDate = regDate;
+		this.title = title;
+		this.body = body;
+		this.hit = hit;
 	}
 
-	사람 get사람(int 번호) {
-		return 사람들[번호 - 1];
-	}
-}
-
-class 사람 {
-	int 번호;
-	String 이름;
-	int 나이;
-
-	void 자기소개() {
-		System.out.printf("저는 %d번, %s, %d살 입니다.\n", 번호, 이름, 나이);
+	public void increaseHit() {
+		hit++;
 	}
 }
