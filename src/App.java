@@ -66,16 +66,7 @@ public class App {
 
 				int id = Integer.parseInt(commandBits[2]);
 
-				Article foundArticle = null;
-
-				for (int i = 0; i < articles.size(); i++) {
-					Article article = articles.get(i);
-
-					if (article.id == id) {
-						foundArticle = article;
-						break;
-					}
-				}
+				Article foundArticle = getArticleById(id);
 
 				if (foundArticle == null) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -118,16 +109,7 @@ public class App {
 
 				int id = Integer.parseInt(commandBits[2]);
 // 삭제할때에는 인덱스 번호를 삭제해야 한다. (0부터 시작하기 떄문에 실제 번호가 -1 됨)
-				int foundIndex = -1;
-
-				for (int i = 0; i < articles.size(); i++) {
-					Article article = articles.get(i);
-
-					if (article.id == id) {
-						foundIndex = i;
-						break;
-					}
-				}
+				int foundIndex = getArticleIndexById(id);
 
 				if (foundIndex == -1) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -145,20 +127,45 @@ public class App {
 
 		System.out.println("===== 프로그램 끝 =====");
 	}
-// 찾는 메서드 구현 진행중
-	private Article getArticleById(int id) {
-		for (int i = 0; i < articles.size(); i++) {
-			Article article = articles.get(i);
 
+	private int getArticleIndexById(int id) {
+		int i = 0;
+		for (Article article : articles) {
 			if (article.id == id) {
-				foundArticle = article;
-				break;
+				return i;
 			}
+			i++;
+		}
+		return -1; // 없다는 뜻의 인덱스를 불러올때 음수로 리턴
+	}
+
+// 찾는 메서드 구현 진행중(3단계 구현)
+	private Article getArticleById(int id) {
+// 찾기 메서드 1단계
+//		for (int i = 0; i < articles.size(); i++) {  
+//			Article article = articles.get(i);
+//
+//			if (article.id == id) {
+//				return article;
+//			}
+//		}
+// 찾기 메서드 2단계
+//		for (Article article : articles) {
+//
+//			if (article.id == id) {
+//				return article;
+//			}
+//		}
+		int index = getArticleIndexById(id);
+		
+		if (index != -1) {
+		
+			return articles.get(index);
 		}
 		return null;
 	}
-	// static 삭제
 
+	// static 삭제
 	private void makeTestData() {
 		System.out.println("테스트를 위한 데이터를 생성합니다.");
 // 인자가 4개였는데, class Article 에서 인자 hit 추가됨에 따라 여기도 인자를 1개 추가하였음(대신 조회수를 임의로 지정한 상태)
