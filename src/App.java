@@ -141,6 +141,14 @@ public class App {
 
 // 찾는 메서드 구현 진행중(3단계 구현)
 	private Article getArticleById(int id) {
+		int index = getArticleIndexById(id);
+// 인덱스로 불러오되, 인덱스는 0부터 시작하기에 음수-1과 같지 않다면으로 함수 작성
+		if (index != -1) {
+			return articles.get(index);
+		}
+		return null;
+	}
+
 // 찾기 메서드 1단계
 //		for (int i = 0; i < articles.size(); i++) {  
 //			Article article = articles.get(i);
@@ -156,14 +164,6 @@ public class App {
 //				return article;
 //			}
 //		}
-		int index = getArticleIndexById(id);
-		
-		if (index != -1) {
-		
-			return articles.get(index);
-		}
-		return null;
-	}
 
 	// static 삭제
 	private void makeTestData() {
