@@ -36,6 +36,7 @@ public class App {
 			}
 
 			if (command.equals("article write")) {
+// equals 객체끼리 비교하는 메소드
 // Lastarticleid 를 지움으로써 테스트케이스를 작성한 글 이후로 글 생성 및 번호가 입력되도록 하고 아래의 코드를 작성
 				int id = articles.size() + 1;
 				String regDate = Util.getNowDateStr();
@@ -48,16 +49,39 @@ public class App {
 				articles.add(article);
 
 				System.out.printf("%d번글이 생성되었습니다\n", id);
-
-			} else if (command.equals("article list")) {
+// startsWith 함수는 대상 문자열이 특정 문자 또는 문자열로 시작하는지 체크하는 함수로 equals 함수 대신 이 함수로 변경하여 활용
+// equals 함수를 startsWith로 변경
+			} else if (command.startsWith("article list")) {
 				if (articles.size() == 0) {
 					System.out.println("게시글이 없습니다");
 					continue;
 				}
-				System.out.println("번호  |  제목  |  조회");
-				for (int i = articles.size() - 1; i >= 0; i--) {
-					Article article = articles.get(i);
+// command에 저장된 문자열 -> substring 문자열 잘라내기 함수 / 공백 무시하도록 trim 작성
+				String searchKeyword = command.substring("article list ".length()).trim();
 
+				List<Article> forPrintArticles = articles;
+//				System.out.printf("검색어 : %s\n", searchKeyword);
+// 검색기능을 추가하기 위해 articles 에 검색된 자료를 새로운 검색창고(리스트)를 생성하여 보관토록 작성
+// 원래 있던 기능을 손대면 코드가 깨짐
+// forPrintArticles 새로운 검색창고를 아래의 기존 articles와 변경 
+				if (searchKeyword.length() > 0) {
+					forPrintArticles = new ArrayList<>();
+
+					for (Article article : articles) {
+						if (article.title.contains(searchKeyword)) {
+							forPrintArticles.add(article);
+						}
+					}
+
+					if (forPrintArticles.size() == 0) {
+						System.out.println("검색결과가 없습니다");
+					}
+				}
+
+				System.out.println("번호  |  제목  |  조회");
+				for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
+					Article article = forPrintArticles.get(i);
+					
 					System.out.printf("%5d | %6s | %4d\n", article.id, article.title, article.hit);
 				}
 			} else if (command.startsWith("article detail ")) {
