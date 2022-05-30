@@ -5,6 +5,7 @@ import java.util.Scanner;
 import Article.Article;
 import Article.Member;
 import Controller.ArticleController;
+import Controller.Controller;
 import Controller.MemberController;
 import YeomIT.Util;
 
@@ -38,27 +39,55 @@ public class App {
 			if (command.equals("system exit")) {
 				break;
 			}
-			if (command.equals("member join")) {
-				memberController.doJoin();
-			} 
-			if (command.equals("article write")) {
-				articleController.doWrite();
-	
-			} else if (command.startsWith("article list")) {
-				articleController.showlist(command);
 
-			} else if (command.startsWith("article detail ")) {
-				articleController.showdatail(command);
-				
-			} else if (command.startsWith("article modify ")) {
-				articleController.showmodify(command);
-				
-			} else if (command.startsWith("article delete ")) {
-				articleController.showdelete(command);
-				
-			} else {
-				System.out.println("존재하지 않는 명령어 입니다");
+// 위 함수까지는 읽고 나서 실행하도록 이곳에 작성
+// 다시 한번 문자열을 쪼개어 검색하도록 한다.
+			String[] commandBits = command.split(" "); // article list
+// commandBits 의 배열개수가 1이라면 정상적인 명령어를 작성하지 않은걸로 한다.
+			if (commandBits.length == 1) {
+				System.out.println("존재하지 않는 명령어입니다.");
+				continue;
 			}
+// controllerName은 명령어상 첫번째 배열의 이름
+			String controllerName = commandBits[0]; // article
+// actionMethodName은 명령어상 두번째 배열의 이름
+			String actionMethodName = commandBits[1]; // list
+// controller 변수에 null값 입력
+			Controller controller = null;
+// 만약에 controllerName이 article라면 controller 변수값에 articleController 입력된다.
+			if (controllerName.equals("article")) {
+				controller = articleController;
+	// 위 사항이 아니고 controllerName이 member라면 controller 변수값에 memberController 입력된다.
+			} else if (controllerName.equals("member")) {
+				controller = memberController;
+	// 위 사항 모두 아니라면 출력하고 con~~~~
+			} else {
+				System.out.println("존재하지 않는 명령어입니다.");
+				continue;
+			}	// doAction 이라는 함수를 생성하고 누르면 command, actionMethodName 인자를 불러와서 실행하는 함수
+			controller.doAction(command, actionMethodName);
+
+//			if (command.equals("member join")) {
+//				memberController.doJoin();
+//			}
+//			if (command.equals("article write")) {
+//				articleController.doWrite();
+//
+//			} else if (command.startsWith("article list")) {
+//				articleController.showlist(command);
+//
+//			} else if (command.startsWith("article detail ")) {
+//				articleController.showdetail(command);
+//
+//			} else if (command.startsWith("article modify ")) {
+//				articleController.domodify(command);
+//
+//			} else if (command.startsWith("article delete ")) {
+//				articleController.dodelete(command);
+//
+//			} else {
+//				System.out.println("존재하지 않는 명령어 입니다");
+//			}
 		}
 
 		sc.close();

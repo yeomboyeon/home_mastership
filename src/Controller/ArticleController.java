@@ -4,12 +4,40 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.text.AbstractDocument.BranchElement;
+
 import Article.Article;
 import YeomIT.Util;
 
-public class ArticleController {
+// Controller 상속을 통해서 doAction 함수 받아오기
+public class ArticleController extends Controller {
 	private Scanner sc;
 	private List<Article> articles;
+	private String command;
+	private String actionMethodName;
+
+// 스위치(case) 함수 작성 명령어 이름 쓰고 맞다면 해당 함수 실행하고 break로 빠져나가기
+	public void doAction(String command, String actionMethodName) {
+		this.command = command;
+		this.actionMethodName = actionMethodName;
+		switch (actionMethodName) {
+		case "list":
+			showlist(command);
+			break;
+		case "write":
+			doWrite();
+			break;
+		case "detail":
+			showdetail(command);
+			break;
+		case "modify":
+			domodify(command);
+			break;
+		case "delete":
+			dodelete(command);
+			break;
+		}
+	}
 
 	public ArticleController(Scanner sc, List<Article> articles) {
 		this.sc = sc;
@@ -63,7 +91,7 @@ public class ArticleController {
 
 	}
 
-	public void showdatail(String command) {
+	public void showdetail(String command) {
 		String[] commandBits = command.split(" ");
 
 		int id = Integer.parseInt(commandBits[2]);
@@ -84,7 +112,7 @@ public class ArticleController {
 
 	}
 
-	public void showmodify(String command) {
+	public void domodify(String command) {
 		String[] commandBits = command.split(" ");
 
 		int id = Integer.parseInt(commandBits[2]);
@@ -107,7 +135,7 @@ public class ArticleController {
 
 	}
 
-	public void showdelete(String command) {
+	public void dodelete(String command) {
 		String[] commandBits = command.split(" ");
 
 		int id = Integer.parseInt(commandBits[2]);
@@ -143,5 +171,3 @@ public class ArticleController {
 	}
 
 }
-
-// delete 까지 옮기는 작업 진행중

@@ -5,11 +5,18 @@ import java.util.Scanner;
 
 import Article.Member;
 import YeomIT.Util;
-
-public class MemberController {
+// 게시판 컨트롤러와 동일하게 작성
+public class MemberController extends Controller {
 	private Scanner sc;
 	private List<Member> members;
+	private String command;
+	private String actionMethodName;
 
+	public void doAction(String command, String actionMethodName) {
+		this.command = command;
+		this.actionMethodName = actionMethodName;
+	}
+	
 	public MemberController(Scanner sc, List<Member> members) {
 		this.sc = sc;
 		this.members = members;
