@@ -1,10 +1,8 @@
 package Article;
 // 외부에서 쓸 수 있도록 무조건 public 를 붙여야 한다.
 
-public class Article {
+public class Article  extends Dto{
 // dto vo ?? 와따가따 해야하는 데이터를 정의
-	public int id;
-	public String regDate;
 	public String title;
 	public String body;
 	public int hit;
