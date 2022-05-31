@@ -21,6 +21,9 @@ public class App {
 	public void start() {
 		System.out.println("===== 프로그램 시작 =====");
 		makeTestData();
+//		이전 및 생성 진행중
+//		makeTestData(article);
+//		makeTestData(member);
 
 		Scanner sc = new Scanner(System.in);
 

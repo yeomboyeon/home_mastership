@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.swing.text.AbstractDocument.BranchElement;
-
 import Article.Article;
 import YeomIT.Util;
 
@@ -64,7 +62,8 @@ public class ArticleController extends Controller {
 			System.out.println("게시글이 없습니다");
 			return;
 		}
-		String searchKeyword = command.substring("article list ".length()).trim();
+// 계속 오류가 발생했었는데 ...... "article list" 여기에 "article list " 공백이 하나 있어 계속 오류가 났었네.....
+		String searchKeyword = command.substring("article list".length()).trim();
 
 		List<Article> forPrintArticles = articles;
 
@@ -79,6 +78,7 @@ public class ArticleController extends Controller {
 
 			if (forPrintArticles.size() == 0) {
 				System.out.println("검색결과가 없습니다");
+				return;
 			}
 		}
 
