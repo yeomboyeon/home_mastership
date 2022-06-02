@@ -1,28 +1,73 @@
 package Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import Article.Member;
 import YeomIT.Util;
-// 게시판 컨트롤러와 동일하게 작성
+
 public class MemberController extends Controller {
 	private Scanner sc;
 	private List<Member> members;
 	private String command;
 	private String actionMethodName;
+	private Member loginedMember;
 
 	public void doAction(String command, String actionMethodName) {
 		this.command = command;
 		this.actionMethodName = actionMethodName;
-	}
-	
-	public MemberController(Scanner sc, List<Member> members) {
-		this.sc = sc;
-		this.members = members;
+		switch (actionMethodName) {
+		case "join":
+			doJoin();
+			break;
+		case "login":
+			dologin();
+			break;
+		default:
+			System.out.println("존재하지 않는 명령어입니다.");
+			break;
+		}
 	}
 
-	public void doJoin() {
+	private void dologin() {
+		System.out.printf("로그인 아이디 : ");
+		String loginId = sc.nextLine();
+		System.out.printf("로그인 비밀번호 : ");
+		String loginPw = sc.nextLine();
+
+		Member member = getMemberByLoginId(loginId);
+
+		if (member == null) {
+			System.out.println("해당 회원은 존재하지 않습니다.");
+			return;
+		}
+		if (member.loginPw.equals(loginPw) == false) {
+			System.out.println("비밀번호를 다시 확인해 주세요.");
+			return;
+		}
+		// 로그인한 결과를 새로운 변수에 저장해놓고 나중에 써먹기
+		loginedMember = member;
+		System.out.printf("로그인 성공! %s님 환영합니다. \n", loginedMember.name);
+	}
+
+	private Member getMemberByLoginId(String loginId) {
+		int index = getMemberIndexByLoginId(loginId);
+
+		if (index == -1) {
+			return null;
+		}
+
+		return members.get(index);
+
+	}
+
+	public MemberController(Scanner sc) {
+		this.sc = sc;
+		members = new ArrayList<>();
+	}
+
+	private void doJoin() {
 		int id = members.size() + 1;
 		String regDate = Util.getNowDateStr();
 

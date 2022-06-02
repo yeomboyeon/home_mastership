@@ -14,6 +14,7 @@ public class ArticleController extends Controller {
 	private String command;
 	private String actionMethodName;
 
+	
 // 스위치(case) 함수 작성 명령어 이름 쓰고 맞다면 해당 함수 실행하고 break로 빠져나가기
 	public void doAction(String command, String actionMethodName) {
 		this.command = command;
@@ -34,15 +35,18 @@ public class ArticleController extends Controller {
 		case "delete":
 			dodelete(command);
 			break;
+		default:
+			System.out.println("존재하지 않는 명령어입니다.");
+			break;
 		}
 	}
 
-	public ArticleController(Scanner sc, List<Article> articles) {
+	public ArticleController(Scanner sc) {
 		this.sc = sc;
-		this.articles = articles;
+		articles = new ArrayList<>();
 	}
 
-	public void doWrite() {
+	private void doWrite() {
 		int id = articles.size() + 1;
 		String regDate = Util.getNowDateStr();
 		System.out.printf("제목 : ");
@@ -57,7 +61,7 @@ public class ArticleController extends Controller {
 
 	}
 
-	public void showlist(String command) {
+	private void showlist(String command) {
 		if (articles.size() == 0) {
 			System.out.println("게시글이 없습니다");
 			return;
@@ -91,7 +95,7 @@ public class ArticleController extends Controller {
 
 	}
 
-	public void showdetail(String command) {
+	private void showdetail(String command) {
 		String[] commandBits = command.split(" ");
 
 		int id = Integer.parseInt(commandBits[2]);
@@ -112,7 +116,7 @@ public class ArticleController extends Controller {
 
 	}
 
-	public void domodify(String command) {
+	private void domodify(String command) {
 		String[] commandBits = command.split(" ");
 
 		int id = Integer.parseInt(commandBits[2]);
@@ -135,7 +139,7 @@ public class ArticleController extends Controller {
 
 	}
 
-	public void dodelete(String command) {
+	private void dodelete(String command) {
 		String[] commandBits = command.split(" ");
 
 		int id = Integer.parseInt(commandBits[2]);
@@ -150,6 +154,14 @@ public class ArticleController extends Controller {
 
 	}
 
+	public void makeTestData() {
+		System.out.println("테스트를 위한 데이터를 생성합니다.");
+		articles.add(new Article(1, Util.getNowDateStr(), "제목1", "내용1", 11));
+		articles.add(new Article(2, Util.getNowDateStr(), "제목2", "내용2", 22));
+		articles.add(new Article(3, Util.getNowDateStr(), "제목3", "내용3", 33));
+
+	}
+	
 	private int getArticleIndexById(int id) {
 		int i = 0;
 		for (Article article : articles) {
