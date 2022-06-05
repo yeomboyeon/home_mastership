@@ -12,7 +12,6 @@ public class MemberController extends Controller {
 	private List<Member> members;
 	private String command;
 	private String actionMethodName;
-	private Member loginedMember;
 
 	public void doAction(String command, String actionMethodName) {
 		this.command = command;
@@ -40,10 +39,6 @@ public class MemberController extends Controller {
 		}
 		loginedMember = null; // loginedMember 에 로그인 된 상태를 null로 바꾸면 로그아웃이 된다는 의미
 		System.out.println("로그아웃 되었습니다.");
-	}
-
-	private boolean islogined() { // loginedMember 가 null 값이 아니다라면 로그인 된 상태를 의미 로그인이 됬니 안됬니 판단
-		return loginedMember != null; // 로그인 상태가 null과 같지 같다 false를 리턴
 	}
 
 	private void dologin() {

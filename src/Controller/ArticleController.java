@@ -7,15 +7,12 @@ import java.util.Scanner;
 import Article.Article;
 import YeomIT.Util;
 
-// Controller 상속을 통해서 doAction 함수 받아오기
 public class ArticleController extends Controller {
 	private Scanner sc;
 	private List<Article> articles;
 	private String command;
 	private String actionMethodName;
 
-	
-// 스위치(case) 함수 작성 명령어 이름 쓰고 맞다면 해당 함수 실행하고 break로 빠져나가기
 	public void doAction(String command, String actionMethodName) {
 		this.command = command;
 		this.actionMethodName = actionMethodName;
@@ -24,6 +21,10 @@ public class ArticleController extends Controller {
 			showlist(command);
 			break;
 		case "write":
+			if(islogined() == false) { // 로그인이 안되어 있다면 이라는 함수
+				System.out.println("로그인 후 사용해주세요");
+				break;
+			} // 활용할 수 있도록 추가
 			doWrite();
 			break;
 		case "detail":
