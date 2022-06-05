@@ -69,14 +69,6 @@ public class MemberController extends Controller {
 		loginedMember = member;
 		System.out.printf("로그인 성공! %s님 환영합니다. \n", loginedMember.name);
 	}
-// 5번째 인자를 받아올 때 게시판과는 다르게 숫자가 아닌 문자로 받던 했어야 했음.
-	public void makeTestData() {
-		System.out.println("테스트를 위한 회원을 생성합니다.");
-		members.add(new Member(1, Util.getNowDateStr(), "admin", "admin", "관리자"));
-		members.add(new Member(2, Util.getNowDateStr(), "asd", "asd", "유저2"));
-		members.add(new Member(3, Util.getNowDateStr(), "qqq", "qqq", "유저3"));
-
-	}
 
 	private Member getMemberByLoginId(String loginId) {
 		int index = getMemberIndexByLoginId(loginId);
@@ -138,6 +130,7 @@ public class MemberController extends Controller {
 		System.out.printf("%d번 회원이 가입하였습니다\n", id);
 
 	}
+	// 5번째 인자를 받아올 때 게시판과는 다르게 숫자가 아닌 문자로 받던 했어야 했음.
 
 	public void makeTestData() {
 		System.out.println("테스트를 위한 회원 데이터를 생성합니다.");
