@@ -42,7 +42,7 @@ public class MemberController extends Controller {
 		System.out.println("로그아웃 되었습니다.");
 	}
 
-	private boolean islogined() { // loginedMember 가 null 값이 아니다라면 로그인 된 상태를 의미
+	private boolean islogined() { // loginedMember 가 null 값이 아니다라면 로그인 된 상태를 의미 로그인이 됬니 안됬니 판단
 		return loginedMember != null; // 로그인 상태가 null과 같지 같다 false를 리턴
 	}
 
