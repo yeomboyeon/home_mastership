@@ -35,6 +35,7 @@ public class ArticleController extends Controller {
 		case "delete":
 			dodelete(command);
 			break;
+// 문자열 2번째( actionMethodName ) 을 작성한 상태가 위 case 에 명시된 문자열들이 없다면 출력되도록 하는 방법
 		default:
 			System.out.println("존재하지 않는 명령어입니다.");
 			break;
@@ -45,7 +46,7 @@ public class ArticleController extends Controller {
 		this.sc = sc;
 		articles = new ArrayList<>();
 	}
-
+// 글 생성시 글 번호 중복되는 거 조치 필요
 	private void doWrite() {
 		int id = articles.size() + 1;
 		String regDate = Util.getNowDateStr();

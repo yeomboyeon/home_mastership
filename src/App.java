@@ -33,16 +33,16 @@ public class App {
 				break;
 			}
 
-			String[] commandBits = command.split(" "); // article list
+			String[] commandBits = command.split(" ");
 
 			if (commandBits.length == 1) {
 				System.out.println("존재하지 않는 명령어입니다.");
 				continue;
 			}
 
-			String controllerName = commandBits[0]; // article
+			String controllerName = commandBits[0];
 
-			String actionMethodName = commandBits[1]; // list
+			String actionMethodName = commandBits[1];
 
 			Controller controller = null;
 
