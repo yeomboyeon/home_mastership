@@ -21,10 +21,10 @@ public class ArticleController extends Controller {
 			showlist(command);
 			break;
 		case "write":
-			if (islogined() == false) { // 로그인이 안되어 있다면 이라는 함수
+			if (islogined() == false) { 
 				System.out.println("로그인 후 사용해주세요");
 				break;
-			} // 활용할 수 있도록 추가
+			} 
 			doWrite();
 			break;
 		case "detail":
@@ -36,7 +36,6 @@ public class ArticleController extends Controller {
 		case "delete":
 			dodelete(command);
 			break;
-// 문자열 2번째( actionMethodName ) 을 작성한 상태가 위 case 에 명시된 문자열들이 없다면 출력되도록 하는 방법
 		default:
 			System.out.println("존재하지 않는 명령어입니다.");
 			break;
@@ -69,7 +68,8 @@ public class ArticleController extends Controller {
 			System.out.println("게시글이 없습니다");
 			return;
 		}
-// 계속 오류가 발생했었는데 ...... "article list" 여기에 "article list " 공백이 하나 있어 계속 오류가 났었네.....
+
+		
 		String searchKeyword = command.substring("article list".length()).trim();
 
 		List<Article> forPrintArticles = articles;

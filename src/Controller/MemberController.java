@@ -33,16 +33,16 @@ public class MemberController extends Controller {
 	}
 
 	private void dologout() {
-		if (islogined() == false) { // islogined 함수 추가
+		if (islogined() == false) {
 			System.out.println("로그인 상태가 아닙니다.");
 			return;
 		}
-		loginedMember = null; // loginedMember 에 로그인 된 상태를 null로 바꾸면 로그아웃이 된다는 의미
+		loginedMember = null;
 		System.out.println("로그아웃 되었습니다.");
 	}
 
 	private void dologin() {
-		if (islogined()) { // 로그인이 되어 있다면 막아야하기에 코드 작성
+		if (islogined()) {
 			System.out.println("이미 로그인 되어 있습니다.");
 			return;
 		}
@@ -125,7 +125,6 @@ public class MemberController extends Controller {
 		System.out.printf("%d번 회원이 가입하였습니다\n", id);
 
 	}
-	// 5번째 인자를 받아올 때 게시판과는 다르게 숫자가 아닌 문자로 받던 했어야 했음.
 
 	public void makeTestData() {
 		System.out.println("테스트를 위한 회원 데이터를 생성합니다.");
