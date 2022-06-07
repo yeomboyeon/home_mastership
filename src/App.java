@@ -7,7 +7,7 @@ import Controller.MemberController;
 public class App {
 
 	public App() {
-		
+
 	}
 
 	public void start() {
@@ -64,6 +64,5 @@ public class App {
 
 		System.out.println("===== 프로그램 끝 =====");
 	}
-
 
 }

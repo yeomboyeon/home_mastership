@@ -21,10 +21,10 @@ public class ArticleController extends Controller {
 			showlist(command);
 			break;
 		case "write":
-			if (islogined() == false) { 
+			if (islogined() == false) {
 				System.out.println("로그인 후 사용해주세요");
 				break;
-			} 
+			}
 			doWrite();
 			break;
 		case "detail":
@@ -69,7 +69,6 @@ public class ArticleController extends Controller {
 			return;
 		}
 
-		
 		String searchKeyword = command.substring("article list".length()).trim();
 
 		List<Article> forPrintArticles = articles;
@@ -89,7 +88,7 @@ public class ArticleController extends Controller {
 			}
 		}
 
-		System.out.println("번호 |  작성자 |  제목  |  조회");
+		System.out.println("번호   |  작성자 |  제목    |  조회");
 		for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
 			Article article = forPrintArticles.get(i);
 
