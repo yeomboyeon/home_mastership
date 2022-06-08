@@ -33,6 +33,7 @@ public class MemberController extends Controller {
 	}
 
 	private void dologout() {
+		// 로그인 상태, 로그아웃 상태를 확인하는 과정은 app로 옮겨서 활용토록 코드 조정 필요
 		if (islogined() == false) {
 			System.out.println("로그인 상태가 아닙니다.");
 			return;
@@ -42,6 +43,7 @@ public class MemberController extends Controller {
 	}
 
 	private void dologin() {
+		// 로그인 상태, 로그아웃 상태를 확인하는 과정은 app로 옮겨서 활용토록 코드 조정 필요
 		if (islogined()) {
 			System.out.println("이미 로그인 되어 있습니다.");
 			return;
