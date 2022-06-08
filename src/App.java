@@ -58,6 +58,21 @@ public class App {
 			}
 			controller.doAction(command, actionMethodName);
 
+			// 보완중
+			String actionName = controllerName + "/" + actionMethodName;
+
+			switch (actionName) {
+			case "article/write":
+			case "article/delete":
+			case "article/modify":
+			case "member/logout":
+				if (Controller.islogined() == false) {
+					System.out.println("로그인 후 사용해주세요");
+					continue;
+				}
+				break;
+			}
+
 		}
 
 		sc.close();

@@ -34,10 +34,7 @@ public class MemberController extends Controller {
 
 	private void dologout() {
 		// 로그인 상태, 로그아웃 상태를 확인하는 과정은 app로 옮겨서 활용토록 코드 조정 필요
-		if (islogined() == false) {
-			System.out.println("로그인 상태가 아닙니다.");
-			return;
-		}
+
 		loginedMember = null;
 		System.out.println("로그아웃 되었습니다.");
 	}
@@ -88,10 +85,17 @@ public class MemberController extends Controller {
 		String regDate = Util.getNowDateStr();
 
 		String loginId = null;
-
+// 문제점 식별 : 명령어 입력 후 엔터를 치면 그냥 입력이 되는 문제
+// "" 를 식별해서 걸러내는 코드 보완
 		while (true) {
 			System.out.printf("로그인 아이디 : ");
-			loginId = sc.nextLine();
+			// member join 하면 빈칸 없애기.
+			loginId = sc.nextLine().trim();
+
+			if (loginId == "") {
+				System.out.printf("아이디를 입력해주세요.\n");
+				continue;
+			}
 
 			if (isJoinableLoginId(loginId) == false) {
 				System.out.printf("%s는(은) 이미 사용중인 아이디입니다.\n", loginId);
@@ -107,6 +111,12 @@ public class MemberController extends Controller {
 		while (true) {
 			System.out.printf("로그인 비밀번호 : ");
 			loginPw = sc.nextLine();
+
+			if (loginPw == "") {
+				System.out.printf("비밀번호를 입력해주세요.\n");
+				continue;
+			}
+
 			System.out.printf("로그인 비밀번호 확인: ");
 			loginPwConfirm = sc.nextLine();
 
@@ -118,8 +128,18 @@ public class MemberController extends Controller {
 			break;
 		}
 
-		System.out.printf("이름 : ");
-		String name = sc.nextLine();
+		String name = null;
+
+		while (true) {
+			System.out.printf("이름 : ");
+			name = sc.nextLine();
+			if (name == "") {
+				System.out.printf("이름을 입력해주세요.\n");
+				continue;
+			}
+
+			break;
+		}
 
 		Member member = new Member(id, regDate, loginId, loginPw, name);
 		members.add(member);

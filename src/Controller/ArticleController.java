@@ -22,10 +22,6 @@ public class ArticleController extends Controller {
 			break;
 		case "write":
 			// 어떤 명령어든 로그인이 되어야 사용 가능하도록 사전에 걸러주기 위해 코드 위치 조정 필요
-			if (islogined() == false) {
-				System.out.println("로그인 후 사용해주세요");
-				break;
-			}
 			doWrite();
 			break;
 		case "detail":
