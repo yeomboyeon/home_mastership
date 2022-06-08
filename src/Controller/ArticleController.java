@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import Article.Article;
+import Article.Member;
+import Container.Container;
 import YeomIT.Util;
 
 public class ArticleController extends Controller {
@@ -40,7 +42,7 @@ public class ArticleController extends Controller {
 
 	public ArticleController(Scanner sc) {
 		this.sc = sc;
-		articles = new ArrayList<>();
+		articles = Container.articleDao.articles; // Dao articleDao 에서 일하도록 옮김
 	}
 
 // 글 생성시 글 번호 중복되는 거 조치 필요
@@ -84,11 +86,22 @@ public class ArticleController extends Controller {
 			}
 		}
 
-		System.out.println("번호   |  작성자 |  제목    |  조회");
+		System.out.println("번호  |   작성자 |   제목   |  조회");
 		for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
 			Article article = forPrintArticles.get(i);
+// 모듈화)) article 클래스에서 member 클래스에 있는 정보를 빼오는게 제한되기 때문에 외부에서 빼오도록 클래스 재 정의
+// 
+			String writerName = "null";
 
-			System.out.printf("%5d | %5d | %6s | %4d\n", article.id, article.memberId, article.title, article.hit);
+			List<Member> members = Container.memberDao.members;
+			
+			for(Member member : members) {
+				if(article.memberId == member.id) {
+					writerName = member.name;
+					break;
+				}
+			}
+			System.out.printf("%5d | %5s | %6s | %4d\n", article.id, writerName, article.title, article.hit);
 		}
 
 	}
