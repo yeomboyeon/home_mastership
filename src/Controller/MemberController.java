@@ -33,18 +33,11 @@ public class MemberController extends Controller {
 	}
 
 	private void dologout() {
-		// 로그인 상태, 로그아웃 상태를 확인하는 과정은 app로 옮겨서 활용토록 코드 조정 필요
-
 		loginedMember = null;
 		System.out.println("로그아웃 되었습니다.");
 	}
 
 	private void dologin() {
-		// 로그인 상태, 로그아웃 상태를 확인하는 과정은 app로 옮겨서 활용토록 코드 조정 필요
-		if (islogined()) {
-			System.out.println("이미 로그인 되어 있습니다.");
-			return;
-		}
 		System.out.printf("로그인 아이디 : ");
 		String loginId = sc.nextLine();
 		System.out.printf("로그인 비밀번호 : ");

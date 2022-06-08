@@ -56,7 +56,6 @@ public class App {
 				System.out.println("존재하지 않는 명령어입니다.");
 				continue;
 			}
-			controller.doAction(command, actionMethodName);
 
 			// 보완중
 			String actionName = controllerName + "/" + actionMethodName;
@@ -72,6 +71,16 @@ public class App {
 				}
 				break;
 			}
+			switch (actionName) {
+			case "member/login":
+			case "member/join":
+				if (Controller.islogined()) {
+					System.out.println("로그아웃 후 사용하여 주세요.");
+					continue;
+				}
+				break;
+			}
+			controller.doAction(command, actionMethodName);
 
 		}
 

@@ -21,7 +21,6 @@ public class ArticleController extends Controller {
 			showlist(command);
 			break;
 		case "write":
-			// 어떤 명령어든 로그인이 되어야 사용 가능하도록 사전에 걸러주기 위해 코드 위치 조정 필요
 			doWrite();
 			break;
 		case "detail":
@@ -45,7 +44,6 @@ public class ArticleController extends Controller {
 	}
 
 // 글 생성시 글 번호 중복되는 거 조치 필요
-	// 로그인 상태에서 작성이 되어야 하는 확인 과정을 app에서 실행토록 보완 필요
 	private void doWrite() {
 		int id = articles.size() + 1;
 		String regDate = Util.getNowDateStr();
@@ -116,7 +114,7 @@ public class ArticleController extends Controller {
 		System.out.printf("조회 : %d\n", foundArticle.hit);
 
 	}
-	// 로그인 상태에서 작성이 되어야 하는 확인 과정을 app에서 실행토록 보완 필요
+
 	private void domodify(String command) {
 		String[] commandBits = command.split(" ");
 
@@ -128,9 +126,9 @@ public class ArticleController extends Controller {
 			System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 			return;
 		}
-		// 글을 작성한 작성자와 로그인된 회원과 동일하지 않다면 권한이 없도록 적용
+// 게시물에 작성자만 수정할 수 있도록 코드 보완
 		if (foundArticle.memberId != loginedMember.id) {
-			System.out.printf("권한이 않습니다.\n");
+			System.out.printf("권한이 없습니다.\n");
 			return;
 		}
 		System.out.printf("제목 : ");
@@ -144,21 +142,24 @@ public class ArticleController extends Controller {
 		System.out.printf("%d번 게시물을 수정했습니다.\n", id);
 
 	}
-	// 로그인 상태에서 작성이 되어야 하는 확인 과정을 app에서 실행토록 보완 필요
+
 	private void dodelete(String command) {
-				String[] commandBits = command.split(" ");
+		String[] commandBits = command.split(" ");
 
 		int id = Integer.parseInt(commandBits[2]);
 		Article foundArticle = getArticleById(id);
-// 인덱스 적용 부분을 게시물을 확인하고 처리되도록 보완
+
 		if (foundArticle == null) {
 			System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 			return;
 		}
+
+// 게시물에 작성자만 삭제할 수 있도록 코드 보완
 		if (foundArticle.memberId != loginedMember.id) {
-			System.out.printf("권한이 않습니다.\n");
+			System.out.printf("권한이 없습니다.\n");
 			return;
 		}
+
 		articles.remove(foundArticle);
 		System.out.printf("%d번 게시물을 삭제했습니다.\n", id);
 
