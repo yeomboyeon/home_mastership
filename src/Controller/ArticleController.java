@@ -47,7 +47,9 @@ public class ArticleController extends Controller {
 
 // 글 생성시 글 번호 중복되는 거 조치 필요
 	private void doWrite() {
-		int id = articles.size() + 1;
+// container 에서 가져오도록 코드 보완
+		int id = Container.articleDao.getNewId();
+		
 		String regDate = Util.getNowDateStr();
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
@@ -55,7 +57,8 @@ public class ArticleController extends Controller {
 		String body = sc.nextLine();
 
 		Article article = new Article(id, regDate, loginedMember.id, title, body);
-		articles.add(article);
+// container 에서 가져오도록 코드 보완
+		Container.articleDao.add(article);
 
 		System.out.printf("%d번 글이 생성되었습니다\n", id);
 
@@ -85,23 +88,22 @@ public class ArticleController extends Controller {
 				return;
 			}
 		}
-
-		System.out.println("번호  |   작성자 |   제목   |  조회");
+// 글간격 보완
+		System.out.println("   번호|    작성자|     제목|           내용|   조회|");
 		for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
 			Article article = forPrintArticles.get(i);
-// 모듈화)) article 클래스에서 member 클래스에 있는 정보를 빼오는게 제한되기 때문에 외부에서 빼오도록 클래스 재 정의
-// 
 			String writerName = "null";
 
 			List<Member> members = Container.memberDao.members;
-			
-			for(Member member : members) {
-				if(article.memberId == member.id) {
+
+			for (Member member : members) {
+				if (article.memberId == member.id) {
 					writerName = member.name;
 					break;
 				}
 			}
-			System.out.printf("%5d | %5s | %6s | %4d\n", article.id, writerName, article.title, article.hit);
+// 글간격 보완
+			System.out.printf("%5d| %7s| %6s| %-11s| %4d|\n", article.id, writerName, article.title, article.body, article.hit);
 		}
 
 	}
@@ -139,7 +141,6 @@ public class ArticleController extends Controller {
 			System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 			return;
 		}
-// 게시물에 작성자만 수정할 수 있도록 코드 보완
 		if (foundArticle.memberId != loginedMember.id) {
 			System.out.printf("권한이 없습니다.\n");
 			return;
@@ -167,7 +168,6 @@ public class ArticleController extends Controller {
 			return;
 		}
 
-// 게시물에 작성자만 삭제할 수 있도록 코드 보완
 		if (foundArticle.memberId != loginedMember.id) {
 			System.out.printf("권한이 없습니다.\n");
 			return;
@@ -177,12 +177,14 @@ public class ArticleController extends Controller {
 		System.out.printf("%d번 게시물을 삭제했습니다.\n", id);
 
 	}
-
+// Container articleDao 에 있는 자료를 넘겨받는다.// 글간격 보완
 	public void makeTestData() {
 		System.out.println("테스트를 위한 게시물 데이터를 생성합니다.");
-		articles.add(new Article(1, Util.getNowDateStr(), 1, "제목1", "내용1", 11));
-		articles.add(new Article(2, Util.getNowDateStr(), 2, "제목2", "내용2", 22));
-		articles.add(new Article(3, Util.getNowDateStr(), 2, "제목3", "내용3", 33));
+		Container.articleDao.add(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(), 1, "제목1", "안녕하세요", 11));
+		Container.articleDao.add(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(), 2, "제목2", "Good Night", 22));
+		Container.articleDao.add(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(), 2, "제목3", "Hello World!", 33));
+		Container.articleDao.add(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(), 2, "제목4", "어서오세요", 1));
+		Container.articleDao.add(new Article(Container.articleDao.getNewId(), Util.getNowDateStr(), 2, "제목5", "끝까지 가보자", 300));
 
 	}
 

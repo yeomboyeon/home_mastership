@@ -74,15 +74,12 @@ public class MemberController extends Controller {
 	}
 
 	private void doJoin() {
-		int id = members.size() + 1;
+		int id = Container.memberDao.getNewId();
 		String regDate = Util.getNowDateStr();
 
 		String loginId = null;
-// 문제점 식별 : 명령어 입력 후 엔터를 치면 그냥 입력이 되는 문제
-// "" 를 식별해서 걸러내는 코드 보완
 		while (true) {
 			System.out.printf("로그인 아이디 : ");
-			// member join 하면 빈칸 없애기.
 			loginId = sc.nextLine().trim();
 
 			if (loginId == "") {
@@ -135,17 +132,19 @@ public class MemberController extends Controller {
 		}
 
 		Member member = new Member(id, regDate, loginId, loginPw, name);
-		members.add(member);
+		Container.memberDao.add(member);
 
 		System.out.printf("%d번 회원이 가입하였습니다\n", id);
 
 	}
-
+// Container memberDao 에 있는 자료를 넘겨받는다.
 	public void makeTestData() {
 		System.out.println("테스트를 위한 회원 데이터를 생성합니다.");
-		members.add(new Member(1, Util.getNowDateStr(), "admin", "admin", "관리자"));
-		members.add(new Member(2, Util.getNowDateStr(), "test1", "test1", "유저1"));
-		members.add(new Member(3, Util.getNowDateStr(), "test2", "test2", "유저2"));
+		Container.memberDao.add(new Member(1, Util.getNowDateStr(), "admin", "admin", "관리자"));
+		Container.memberDao.add(new Member(2, Util.getNowDateStr(), "test1", "test1", "유저1"));
+		Container.memberDao.add(new Member(3, Util.getNowDateStr(), "test2", "test2", "유저2"));
+		Container.memberDao.add(new Member(4, Util.getNowDateStr(), "test3", "test3", "유저3"));
+		Container.memberDao.add(new Member(5, Util.getNowDateStr(), "test4", "test4", "유저4"));
 
 	}
 

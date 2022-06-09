@@ -24,4 +24,5 @@ public class Article  extends Dto{
 	public void increaseHit() {
 		hit++;
 	}
+
 }

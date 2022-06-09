@@ -12,4 +12,5 @@ public class Member extends Dto {
 		this.loginPw = loginPw;
 		this.name = name;
 	}
+
 }
