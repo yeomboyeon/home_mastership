@@ -29,6 +29,22 @@ public class App {
 				continue;
 			}
 
+			if (command.equals("help")) { // help 명령어 추가
+				System.out.println("======= article 주요 기능 =======");
+				System.out.println("article list : 글 목록 기능");
+				System.out.println("article write : 글 쓰기 기능");
+				System.out.println("article delete : 글 삭제 기능");
+				System.out.println("article detail : 글 상세보기 기능");
+				System.out.printf("article modify : 글 수정 기능\n\n");
+				System.out.println("======= member 주요 기능 =======");
+				System.out.println("member join : 회원가입 기능");
+				System.out.println("member login : 회원 로그인 기능");
+				System.out.printf("member logout : 회원 로그아웃 기능\n\n");
+				System.out.println("======= 기타 기능 =======");
+				System.out.printf("system exit : 프로그램 종료 기능\n\n");
+				continue;
+			}
+
 			if (command.equals("system exit")) {
 				break;
 			}

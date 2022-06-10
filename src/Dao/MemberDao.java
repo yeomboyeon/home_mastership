@@ -1,9 +1,11 @@
-package Dao; // 창고관리자
+package Dao;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import Article.Member;
+import Container.Container;
+import YeomIT.Util;
 
 public class MemberDao extends Dao {
 
@@ -18,7 +20,36 @@ public class MemberDao extends Dao {
 		lastId++;
 	}
 
+	public Member getMemberByLoginId(String loginId) {
+		int index = getMemberIndexByLoginId(loginId);
+
+		if (index == -1) {
+			return null;
+		}
+
+		return members.get(index);
+	}
+
+	public boolean isJoinableLoginId(String loginId) {
+		int index = getMemberIndexByLoginId(loginId);
+
+		if (index == -1) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public int getMemberIndexByLoginId(String loginId) {
+		int i = 0;
+		for (Member member : members) {
+			if (member.loginId.equals(loginId)) {
+				return i;
+			}
+			i++;
+		}
+
+		return -1;
+	}
 
 }
-//Dao 창고관리자가 가지고 있는 members 창고 클래스를 만들고 코드 보완
-//memberController 에서 사용했던 new ArrayList 를 여기에서 사용하도록 보완

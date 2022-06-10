@@ -43,12 +43,10 @@ public class ArticleController extends Controller {
 
 	public ArticleController(Scanner sc) {
 		this.sc = sc;
-		articleService = Container.articleService; // service 에서 일하도록 재 보완
+		articleService = Container.articleService;
 	}
 
-// 글 생성시 글 번호 중복되는 거 조치 필요
 	private void doWrite() {
-// container 에서 가져오도록 코드 보완
 		int id = Container.articleDao.getNewId();
 
 		String regDate = Util.getNowDateStr();
@@ -58,7 +56,6 @@ public class ArticleController extends Controller {
 		String body = sc.nextLine();
 
 		Article article = new Article(id, regDate, loginedMember.id, title, body);
-// container 에서 가져오도록 코드 보완
 		Container.articleService.add(article);
 
 		System.out.printf("%d번 글이 생성되었습니다\n", id);
@@ -71,7 +68,6 @@ public class ArticleController extends Controller {
 
 		List<Article> forPrintArticles = Container.articleService.getForPrintArticles(searchKeyword);
 
-// 글간격 보완
 		System.out.println("   번호|    작성자|     제목|           내용|   조회|");
 		for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
 			Article article = forPrintArticles.get(i);
@@ -85,7 +81,6 @@ public class ArticleController extends Controller {
 					break;
 				}
 			}
-// 글간격 보완
 			System.out.printf("%5d| %7s| %6s| %-11s| %4d|\n", article.id, writerName, article.title, article.body,
 					article.hit);
 		}

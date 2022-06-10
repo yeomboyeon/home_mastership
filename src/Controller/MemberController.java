@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import Article.Member;
 import Container.Container;
+import Service.MemberService;
 import YeomIT.Util;
 
 public class MemberController extends Controller {
@@ -12,6 +13,7 @@ public class MemberController extends Controller {
 	private List<Member> members;
 	private String command;
 	private String actionMethodName;
+	private MemberService memberService;
 
 	public void doAction(String command, String actionMethodName) {
 		this.command = command;
@@ -43,7 +45,7 @@ public class MemberController extends Controller {
 		System.out.printf("로그인 비밀번호 : ");
 		String loginPw = sc.nextLine();
 
-		Member member = getMemberByLoginId(loginId);
+		Member member = memberService.getMemberByLoginId(loginId); // service 에서 구현
 
 		if (member == null) {
 			System.out.println("해당 회원은 존재하지 않습니다.");
@@ -57,20 +59,9 @@ public class MemberController extends Controller {
 		System.out.printf("로그인 성공! %s님 환영합니다. \n", loginedMember.name);
 	}
 
-	private Member getMemberByLoginId(String loginId) {
-		int index = getMemberIndexByLoginId(loginId);
-
-		if (index == -1) {
-			return null;
-		}
-
-		return members.get(index);
-
-	}
-
 	public MemberController(Scanner sc) {
 		this.sc = sc;
-		members = Container.memberDao.members;
+		memberService = Container.memberService; // service에서 구현
 	}
 
 	private void doJoin() {
@@ -87,7 +78,7 @@ public class MemberController extends Controller {
 				continue;
 			}
 
-			if (isJoinableLoginId(loginId) == false) {
+			if (memberService.isJoinableLoginId(loginId) == false) { // service 에서 구현
 				System.out.printf("%s는(은) 이미 사용중인 아이디입니다.\n", loginId);
 				continue;
 			}
@@ -132,12 +123,11 @@ public class MemberController extends Controller {
 		}
 
 		Member member = new Member(id, regDate, loginId, loginPw, name);
-		Container.memberDao.add(member);
+		Container.memberService.add(member); // service로 구현
 
 		System.out.printf("%d번 회원이 가입하였습니다\n", id);
 
 	}
-// Container memberDao 에 있는 자료를 넘겨받는다.
 	public void makeTestData() {
 		System.out.println("테스트를 위한 회원 데이터를 생성합니다.");
 		Container.memberDao.add(new Member(1, Util.getNowDateStr(), "admin", "admin", "관리자"));
@@ -147,27 +137,4 @@ public class MemberController extends Controller {
 		Container.memberDao.add(new Member(5, Util.getNowDateStr(), "test4", "test4", "유저4"));
 
 	}
-
-	private boolean isJoinableLoginId(String loginId) {
-		int index = getMemberIndexByLoginId(loginId);
-
-		if (index == -1) {
-			return true;
-		}
-
-		return false;
-	}
-
-	private int getMemberIndexByLoginId(String loginId) {
-		int i = 0;
-		for (Member member : members) {
-			if (member.loginId.equals(loginId)) {
-				return i;
-			}
-			i++;
-		}
-
-		return -1;
-	}
-
 }
