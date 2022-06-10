@@ -2,7 +2,7 @@ package Dao;
 
 public abstract class Dao {
 
-	public int lastId;
+	protected  int lastId;
 
 	Dao() {
 		lastId = 0;
